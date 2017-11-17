@@ -1,8 +1,12 @@
 package com.example.woodson.supernews.Presenter;
 
+import com.android.volley.RequestQueue;
+import com.example.woodson.supernews.Entity.newsData;
 import com.example.woodson.supernews.Module.getNews;
 import com.example.woodson.supernews.Module.getNewsNow;
 import com.example.woodson.supernews.View.NewsView;
+
+import java.util.List;
 
 /**
  * Created by Woodson on 2017/11/9.
@@ -19,15 +23,16 @@ public class controlNews implements getNewsListener{
     }
 
     //该方法可以抽象出来
-    public void getNews(){
+    //volley访问百度要加 https  =====   http不能访问
+    public void getNews(RequestQueue queue){
         newsView.showDialog();
-        getNews.loadNews("",this);
+        getNews.loadNews("http://v.juhe.cn/toutiao/index?type=top&key=c28aba04b99502296759f040886eabb2",queue,this);
     }
 
+
     @Override
-    public void Success() {
-        newsView.hideDialog();
-        //设置界面的操作
+    public void Success(List<newsData> dataList) {
+        newsView.setNews(dataList);
     }
 
     @Override
